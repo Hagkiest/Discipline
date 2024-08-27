@@ -51,7 +51,7 @@ def C():
                         print(f"\033[34m用户昵称: {R}\033[0m")
                         print(f"\033[31m评论内容: {S}\033[0m")
                         print(f"用户ID: {Q} (超链接: {T})")
-                        U = input("是否受理该案件？（输入 'Yes' 或 'Next'）：").strip().lower()
+                        U = input("是否受理该案件？（输入 'Yes' 或 'Next'）：")
                         if U == 'Yes':
                             V = P['id']
                             W = f"https://community-api.xiaomawang.com/api/v1/report/get-info?reportId={V}"
