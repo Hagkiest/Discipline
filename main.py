@@ -1,7 +1,12 @@
-import requests as r; import json as j
+import requests as r;
+import json as j
+import sys
 
+sys.stdin.reconfigure(encoding='utf-8')
+sys.stdout.reconfigure(encoding='utf-8')
 # 在这里填写你的Token
 t = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOnsiZ3JhbnRUeXBlIjoiIiwic2NvcGUiOiIifSwiYXVkIjp7Im93bmVyIjp7ImFwcElkIjoieG13ODA2NjUzMjI0MTA1MCIsInVjSWQiOjMzNjk1NTIsImFjY291bnQiOiIxOTE1OTEwODMyOSJ9LCJ2aXNpdG9yIjoiLnhpYW9tYXdhbmcuY29tIn0sImV4cCI6MTcyNDc2MDg4M30.a3IdtbjQzRtG16QY3lLQtrcxyMfQTMgPWAmcUeGr9gY"
+
 
 def a(u, v=None, w=None, x='GET', y=None):
     try:
@@ -12,11 +17,12 @@ def a(u, v=None, w=None, x='GET', y=None):
         else:  # 默认是 'GET'
             z = r.get(u, params=v, headers=w)
         z.raise_for_status()
-        
+
         return z
     except r.RequestException as B:
         print(f"请求失败: {B}")
         return None
+
 
 def C():
     D = "https://community-api.xiaomawang.com/api/v1/user/validate-token"
@@ -45,8 +51,8 @@ def C():
                         print(f"\033[34m用户昵称: {R}\033[0m")
                         print(f"\033[31m评论内容: {S}\033[0m")
                         print(f"用户ID: {Q} (超链接: {T})")
-                        U = input("是否受理该案件？（输入 '受理' 或 '跳过'）：").strip().lower()
-                        if U == '受理':
+                        U = input("是否受理该案件？（输入 'Yes' 或 'Next'）：").strip().lower()
+                        if U == 'Yes':
                             V = P['id']
                             W = f"https://community-api.xiaomawang.com/api/v1/report/get-info?reportId={V}"
                             X = a(W, w={"Access-Token": t}, x='OPTIONS')
@@ -77,7 +83,10 @@ def C():
                                     a9 = input("请输入举报人站内信内容：").strip()
                                     a0 = input("请输入被举报人站内信内容：").strip()
                                     b1 = "https://community-api.xiaomawang.com/api/v1/report/verify-comment"
-                                    b2 = {"reportId": P['id'], "reporterIsSend": 1, "userIsSend": 1, "reportDetailIds": [a1['id']], "action": int(a7), "remark": a8, "reporterMessage": f"感谢您对社区内容的正义维护，您的举报已受理。{a9}", "userMessage": f"您的评论存在违规内容，该评论及子回复已被系统管理员删除。{a0}"}
+                                    b2 = {"reportId": P['id'], "reporterIsSend": 1, "userIsSend": 1,
+                                          "reportDetailIds": [a1['id']], "action": int(a7), "remark": a8,
+                                          "reporterMessage": f"感谢您对社区内容的正义维护，您的举报已受理。{a9}",
+                                          "userMessage": f"您的评论存在违规内容，该评论及子回复已被系统管理员删除。{a0}"}
                                     b3 = a(b1, w={"Access-Token": t}, x='POST', y=b2)
                                     if b3:
                                         print("案件处理成功")
@@ -97,6 +106,7 @@ def C():
             print("第二个请求失败")
     else:
         print("第一个请求失败")
+
 
 if __name__ == "__main__":
     C()
